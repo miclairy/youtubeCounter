@@ -1,0 +1,36 @@
+{
+
+  "manifest_version": 2,
+  "name": "Youtube Video Counter",
+  "version": "1.0",
+
+  "description": "Alerts you one how many videos you have watched after a set number to stay productive.",
+
+  "icons": {
+    "48": "icons/cat.png"
+  },
+
+  "permissions": [
+    "webRequest", "*://*.youtube.com/watch*"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["inform.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "icons/cat.png",
+    "default_title": "Pick how limit of videos",
+    "default_popup": "popup/chooseLimit.html"
+  }
+
+  
+
+}
