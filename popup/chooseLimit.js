@@ -1,6 +1,10 @@
-$("#send").click(function(event){
-    var videos = $("#videos").val();
-    var backgroundScript = chrome.extension.getBackgroundPage();
-    backgroundScript.setVideoLimit(videos);
-    console.log("clicked")
-})
+$(document).ready(function () {
+
+    $("#submit").click(function(event){
+        event.preventDefault();
+        var videos = $("#videos").val();
+        var backgroundScript = chrome.extension.getBackgroundPage();
+        backgroundScript.setVideoLimit(videos);
+        
+    })
+});
