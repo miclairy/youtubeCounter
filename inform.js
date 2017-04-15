@@ -1,1 +1,9 @@
-alert("youtube counter running")
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+
+    if (request.limitExceeded == true){
+        alert("Limit exceeded on videos")
+        sendResponse({farewell: "goodbye"});
+    }
+      
+  });
