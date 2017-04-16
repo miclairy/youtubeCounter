@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener(
 
     if (request.limitExceeded == true){
         alert("Limit exceeded on videos")
-        sendResponse({farewell: "goodbye"});
+        sendResponse({farewell: "redirect"});
     }
       
   });
