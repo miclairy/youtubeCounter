@@ -31,11 +31,18 @@ function addToCount(){
 
 function setVideoLimit(numberVideos){
     limit = numberVideos;
+    chrome.storage.local.set({
+        videoLimit: numberVideos
+    });
+
 }
 
 function setRedirect(url){
     if (url != null){
         redirectUrl = url;
+        chrome.storage.local.set({
+            redirect: url 
+        })
     }
     
 }

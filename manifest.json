@@ -11,7 +11,7 @@
   },
 
   "permissions": [
-    "webRequest", "*://*.youtube.com/watch*", "webRequestBlocking", "tabs"
+    "webRequest", "*://*.youtube.com/watch*", "webRequestBlocking", "tabs", "storage"
   ],
 
   "background": {

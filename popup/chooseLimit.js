@@ -1,9 +1,13 @@
-var limit = "Infinity";
-var redirect = "www.google.com";
+//var limit = "Infinity";
+//var redirect = "www.google.com";
 
 $(document).ready(function () {
-    $("#videoLimit").html(limit);
-    console.log(limit);
+    chrome.storage.local.get(["videoLimit", "redirect"], function(items){
+        //console.log("got " + items.videoLimit);
+        $("#redirectUrl").html(items.redirect);
+        $("#videoLimit").html(items.videoLimit);
+    });
+    console.log(chrome.storage.local.get("videoLimit"));
     $("#submitVideos").hide();
     $("#videos").hide();
     $("#newRedirect").hide();
@@ -49,7 +53,7 @@ function sendRedirectUrl(event){
         backgroundScript.setRedirect(url);
         $("#redirectUrl").show();
         $("#redirectUrl").html(url);
-        redirect = url;
+        //redirect = url;
         $("#error").hide();
     } else {
         backgroundScript.setRedirect(null);
@@ -62,20 +66,17 @@ function sendVideoNumber(event){
     
     event.preventDefault();
     var videos = $("#videos").val();
-    console.log(videos === parseInt(videos, 10))
     if (!(videos % 1 == 0 && videos >= 0)){
         $("#errorVid").html("Needs to be a positive integer");
-        console.log("broke");
         $("#errorVid").show();
     } else {
         $("#submitVideos").hide();
         $("#videos").hide();
         $("#videoLimit").html(videos);
-        limit = videos;
+        //limit = videos;
         $("#videoLimit").show();
 
         var backgroundScript = chrome.extension.getBackgroundPage();
-        console.log("limit set to: " + limit);
         backgroundScript.setVideoLimit(videos);
         $("#errorVid").hide();
     }
