@@ -1,0 +1,25 @@
+
+#newRedirect{
+    width: 100%;
+}
+
+body {
+    min-width:130px;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+.btn{
+    margin-top: 5px;
+    width: 100%;
+}
+
+.glyphicon{
+    float: right;
+}
+
+p, a, span {
+    text-decoration: none;
+}

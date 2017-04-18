@@ -6,25 +6,37 @@
     <!--<link rel="stylesheet" href="choose_ua.css"/>-->
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="chooseLimit.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css" >
+    
   </head>
 
 <body>
+
+  <form>
+    <a href="#" data-toggle="tooltip" title="Settings" id="settings"> <span class="glyphicon glyphicon-cog"></span> </a>
     <div id="viddiv">
       <label for="videos"> Number videos:</label>
-      <p id="videoLimit"> Infinity </p>
+      <p id="videoLimit">   Infinity </p>  
+      <input class="form-control input-sm" type="number" name="number of videos" id="videos">
+      <div class="alert alert-danger" id="errorVid">
+      </div>
+    </div>
+  </form>
+    
+  <form>
+    <div id="urlDiv">
+      <label for="newRedirect"> Redirect location:</label>
+      <p id="redirectUrl"> www.google.com   </p> 
     </div>
     <div>
-      <input type="text" name="number of videos" id="videos">
-      <button id="submitVideos"> Ok </button>
-      <p id="errorVid"></p>
+      <input type="url" class="form-control input-sm" name="redirect url" id="newRedirect">
+      <div class="alert alert-danger" id="error">
+      </div>
     </div>
-    <div id="urlDiv">
-      <label for="redirect"> Redirect location:</label>
-      <p id="redirectUrl"> www.google.com </p>
-      <input type="text" name="redirect url" id="newRedirect">
-      <button id="submitRedirect"> Ok </button>
-      <p id="error"></p>
-    </div>  
+  </form>
+  <button class="btn btn-xs btn-primary" id="submitAll"> Save </button>
+
 </body>
 
 </html>

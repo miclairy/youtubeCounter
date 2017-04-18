@@ -1,39 +1,48 @@
-//var limit = "Infinity";
-//var redirect = "www.google.com";
 
 $(document).ready(function () {
     chrome.storage.local.get(["videoLimit", "redirect"], function(items){
-        //console.log("got " + items.videoLimit);
         $("#redirectUrl").html(items.redirect);
         $("#videoLimit").html(items.videoLimit);
+        $("#videos").val(items.videoLimit);
+        $("#newRedirect").val(items.redirect );
     });
-    console.log(chrome.storage.local.get("videoLimit"));
-    $("#submitVideos").hide();
+
     $("#videos").hide();
     $("#newRedirect").hide();
-    $("#submitRedirect").hide();
     $("#error").hide();
     $("#errorVid").hide();
+    $("#submitAll").hide();
 
-    $("#videoLimit").click(function(event){
-        $("#videoLimit").hide();
-        $("#submitVideos").show();
-        $("#videos").show();
-    });
+    $("#settings").click(function(event){
+            $("#redirectUrl").hide();
+            $("#newRedirect").show();
+            $("#videoLimit").hide();
+            $("#videos").show(); 
+            $("#submitAll").show();
+        }
+    )
 
-    $("#redirectUrl").click(function(event){
-        $("#redirectUrl").hide();
-        $("#newRedirect").show();
-        $("#submitRedirect").show();
-    })
+    $("#submitAll").click(submit);
 
-    $("#submitVideos").click(sendVideoNumber);
-
-    $("#submitRedirect").click(sendRedirectUrl);
 });
 
+function submit(event){
+    if (sendRedirectUrl(event) && sendVideoNumber(event)){
+        event.preventDefault();
+        $("#newRedirect").hide();
+        $("#redirectUrl").show();
+        $("#error").hide();
+
+        $("#videos").hide();
+        $("#videoLimit").show();
+        $("#errorVid").hide();
+
+        $("#submitAll").hide();
+    }
+    
+}
+
 function sendRedirectUrl(event){
-    event.preventDefault();
     var url = $("#newRedirect").val();
     console.log("redirect " + url);
     var valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
@@ -48,36 +57,28 @@ function sendRedirectUrl(event){
     var backgroundScript = chrome.extension.getBackgroundPage();
     console.log("redirect " + url);
     if (valid == true){
-        $("#newRedirect").hide();
-        $("#submitRedirect").hide();
         backgroundScript.setRedirect(url);
-        $("#redirectUrl").show();
         $("#redirectUrl").html(url);
-        //redirect = url;
-        $("#error").hide();
+        $("#error").hide()
     } else {
         backgroundScript.setRedirect(null);
         $("#error").html("Not a valid Url");
         $("#error").show();
     }
+    return valid;
 }
 
 function sendVideoNumber(event){
     
-    event.preventDefault();
-    var videos = $("#videos").val();
-    if (!(videos % 1 == 0 && videos >= 0)){
+    var videos = $("#videos").val().trim();
+    if (!(videos % 1 == 0 && videos >= 0 && videos != "")){
         $("#errorVid").html("Needs to be a positive integer");
         $("#errorVid").show();
     } else {
-        $("#submitVideos").hide();
-        $("#videos").hide();
+        $("#errorVid").hide();
         $("#videoLimit").html(videos);
-        //limit = videos;
-        $("#videoLimit").show();
-
         var backgroundScript = chrome.extension.getBackgroundPage();
         backgroundScript.setVideoLimit(videos);
-        $("#errorVid").hide();
     }
+    return (videos % 1 == 0 && videos >= 0 && videos != "");
 }
