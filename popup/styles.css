@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.help-block{
+    color: firebrick;
+}
+
 body {
     min-width:130px;
     padding-top: 10px;

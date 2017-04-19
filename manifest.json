@@ -10,6 +10,14 @@
     "64": "icons/squareIcon.png"
   },
 
+  "applications": {
+    "gecko": {
+      "id": "youtubeCounter@productivityTool.com",
+      "strict_min_version": "42.0",
+      "update_url": "https://github.com/miclairy/youtubeCounter/tree/master"
+    }
+  },
+
   "permissions": [
     "webRequest", "*://*.youtube.com/watch*", "webRequestBlocking", "tabs", "storage"
   ],

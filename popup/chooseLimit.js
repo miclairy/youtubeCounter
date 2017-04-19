@@ -1,10 +1,11 @@
 
 $(document).ready(function () {
-    chrome.storage.local.get(["videoLimit", "redirect"], function(items){
+    chrome.storage.local.get(["videoLimit", "redirect", "turnedOff"], function(items){
         $("#redirectUrl").html(items.redirect);
         $("#videoLimit").html(items.videoLimit);
         $("#videos").val(items.videoLimit);
         $("#newRedirect").val(items.redirect );
+        $("#off").prop('checked', items.turnedOff);
     });
 
     $("#videos").hide();
@@ -24,10 +25,23 @@ $(document).ready(function () {
 
     $("#submitAll").click(submit);
 
+    $("#off").click(function(event){
+        
+        if ($("#off").prop('checked')){
+            var backgroundScript = chrome.extension.getBackgroundPage();
+            backgroundScript.turnOff();
+        } else {
+            var backgroundScript = chrome.extension.getBackgroundPage();
+            backgroundScript.turnOn();
+        }
+    })
+
 });
 
 function submit(event){
-    if (sendRedirectUrl(event) && sendVideoNumber(event)){
+    var valid = sendVideoNumber(event)
+    var valid2 = sendRedirectUrl(event)
+    if (valid && valid2){
         event.preventDefault();
         $("#newRedirect").hide();
         $("#redirectUrl").show();
@@ -44,7 +58,6 @@ function submit(event){
 
 function sendRedirectUrl(event){
     var url = $("#newRedirect").val();
-    console.log("redirect " + url);
     var valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
     if (valid == false){
         var addhttp = /[^ "]+$/.test(url);
@@ -55,7 +68,6 @@ function sendRedirectUrl(event){
     }
     
     var backgroundScript = chrome.extension.getBackgroundPage();
-    console.log("redirect " + url);
     if (valid == true){
         backgroundScript.setRedirect(url);
         $("#redirectUrl").html(url);

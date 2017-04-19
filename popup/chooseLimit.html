@@ -15,11 +15,12 @@
 
   <form>
     <a href="#" data-toggle="tooltip" title="Settings" id="settings"> <span class="glyphicon glyphicon-cog"></span> </a>
+    <label class="checkbox-inline"><input type="checkbox" value="" id="off">Turn off</label>
     <div id="viddiv">
       <label for="videos"> Number videos:</label>
-      <p id="videoLimit">   Infinity </p>  
+      <p id="videoLimit"> Infinity </p>  
       <input class="form-control input-sm" type="number" name="number of videos" id="videos">
-      <div class="alert alert-danger" id="errorVid">
+      <span class="help-block" id="errorVid"></span>
       </div>
     </div>
   </form>
@@ -31,7 +32,7 @@
     </div>
     <div>
       <input type="url" class="form-control input-sm" name="redirect url" id="newRedirect">
-      <div class="alert alert-danger" id="error">
+      <span class="help-block" id="error"></span>
       </div>
     </div>
   </form>
