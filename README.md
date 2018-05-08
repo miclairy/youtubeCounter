@@ -4,3 +4,6 @@ You set a limit and a redirect url then once you have watched that many videos t
 
 # Download
 https://addons.mozilla.org/en-US/firefox/addon/youtube-video-counter/
+
+![GitHub Logo](/icons/screenGrab.PNG)
+
