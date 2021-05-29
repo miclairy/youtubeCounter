@@ -1,0 +1,28 @@
+{
+  "name": "youtubecounter",
+  "version": "1.0.0",
+  "description": "Small web extention which limits the number of youtube videos you watch.  \r You set a limit and a redirect url then once you have watched that many videos then you get redirected to the redirect url.",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/firefox": "^0.0.30",
+    "@types/firefox-webext-browser": "^82.0.0",
+    "npm-build-zip": "^1.0.3",
+    "web-ext": "^6.1.0",
+    "web-ext-types": "^3.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miclairy/youtubeCounter.git"
+  },
+  "scripts": {
+    "package": "npm-build-zip --source=./ --destination=../"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miclairy/youtubeCounter/issues"
+  },
+  "homepage": "https://github.com/miclairy/youtubeCounter#readme"
+}

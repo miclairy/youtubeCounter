@@ -1,18 +1,16 @@
-
-$(document).ready(function () {
-    chrome.storage.local.get(["videoLimit", "redirect", "turnedOff"], function(items){
-        $("#redirectUrl").html(items.redirect);
-        $("#videoLimit").html(items.videoLimit);
-        $("#videos").val(items.videoLimit);
-        $("#newRedirect").val(items.redirect );
-        $("#off").prop('checked', items.turnedOff);
-    });
-
+$(document).ready(async function () {
     $("#videos").hide();
     $("#newRedirect").hide();
     $("#error").hide();
     $("#errorVid").hide();
     $("#submitAll").hide();
+
+    const items = await browser.storage.local.get(["videoLimit", "redirect", "turnedOff"]);
+    $("#redirectUrl").html(items.redirect);
+    $("#videoLimit").html(items.videoLimit);
+    $("#videos").val(items.videoLimit);
+    $("#newRedirect").val(items.redirect );
+    $("#off").prop('checked', items.turnedOff);
 
     $("#settings").click(function(event){
             $("#redirectUrl").hide();
@@ -28,10 +26,10 @@ $(document).ready(function () {
     $("#off").click(function(event){
         
         if ($("#off").prop('checked')){
-            var backgroundScript = chrome.extension.getBackgroundPage();
+            const backgroundScript = browser.extension.getBackgroundPage();
             backgroundScript.turnOff();
         } else {
-            var backgroundScript = chrome.extension.getBackgroundPage();
+            const backgroundScript = browser.extension.getBackgroundPage();
             backgroundScript.turnOn();
         }
     })
@@ -39,8 +37,8 @@ $(document).ready(function () {
 });
 
 function submit(event){
-    var valid = sendVideoNumber(event)
-    var valid2 = sendRedirectUrl(event)
+    const valid = sendVideoNumber(event)
+    const valid2 = sendRedirectUrl(event)
     if (valid && valid2){
         event.preventDefault();
         $("#newRedirect").hide();
@@ -56,18 +54,18 @@ function submit(event){
     
 }
 
-function sendRedirectUrl(event){
-    var url = $("#newRedirect").val();
-    var valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
-    if (valid == false){
-        var addhttp = /[^ "]+$/.test(url);
+function sendRedirectUrl(_e){
+    let url = $("#newRedirect").val();
+    let valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
+    if (valid === false){
+        const addhttp = /[^ "]+$/.test(url);
         if (addhttp){
             url = "http://" + url;
             valid = true;
         }
     }
     
-    var backgroundScript = chrome.extension.getBackgroundPage();
+    const backgroundScript = browser.extension.getBackgroundPage();
     if (valid == true){
         backgroundScript.setRedirect(url);
         $("#redirectUrl").html(url);
@@ -80,17 +78,17 @@ function sendRedirectUrl(event){
     return valid;
 }
 
-function sendVideoNumber(event){
+function sendVideoNumber(_e){
     
-    var videos = $("#videos").val().trim();
-    if (!(videos % 1 == 0 && videos >= 0 && videos != "")){
+    const videos = $("#videos").val().trim();
+    if (!(videos % 1 === 0 && videos >= 0 && videos !== "")){
         $("#errorVid").html("Needs to be a positive integer");
         $("#errorVid").show();
     } else {
         $("#errorVid").hide();
         $("#videoLimit").html(videos);
-        var backgroundScript = chrome.extension.getBackgroundPage();
+        const backgroundScript = browser.extension.getBackgroundPage();
         backgroundScript.setVideoLimit(videos);
     }
-    return (videos % 1 == 0 && videos >= 0 && videos != "");
+    return (videos % 1 === 0 && videos >= 0 && videos !== "");
 }

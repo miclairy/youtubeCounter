@@ -1,74 +1,63 @@
-var count = 0;
-var limit = -1;
-var redirectUrl = "https://www.google.co.nz/"
-var off = false;
+let count = 0;
+let limit = -1;
+let redirectUrl = "https://www.google.co.nz/";
+let off = false;
+let lastVideoUrl = "";
 
-var target = "*://*.youtube.com/watch*"
-var currentUrl = "";
+const target = "*://*.youtube.com/watch*";
 
+async function addToCount() {
+    const items = await browser.storage.local.get(["videoLimit", "redirect", "turnedOff"]);
+    redirectUrl = items.redirect;
+    limit = items.videoLimit;
+    off = items.turnedOff;
 
-chrome.webRequest.onCompleted.addListener(addToCount, {urls: [target]});
+    const tabs = await browser.tabs.query({active: true, currentWindow: true});
+    const currentTab = tabs[0];
 
-function addToCount(){
+    console.log(`lastVideoUrl: ${lastVideoUrl}`);
+    console.log(`currentTab.url: ${currentTab.url}`);
+    console.log(`count: ${count}/${limit}`);
 
-    chrome.storage.local.get(["videoLimit", "redirect", "turnedOff"], function(items){
-        redirectUrl = items.redirect;
-        limit = items.videoLimit;
-        off = items.turnedOff;
-    });
-    console.log(off);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        if (tabs[0].url != currentUrl && off == false){
-
-            currentUrl = tabs[0].url;
-            if (count >= limit && limit > -1){
-
-                chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                    chrome.tabs.sendMessage(tabs[0].id, {limitExceeded: true}, function(response) {
-                        chrome.tabs.update(tabs[0].id, {url : redirectUrl});
-                    });
-                });
-            } else {
-                count += 1;
-            }
+    if (currentTab.url !== lastVideoUrl) {
+        lastVideoUrl = currentTab.url;
+        if (count >= limit && limit > -1) {
+            await browser.tabs.sendMessage(currentTab.id, {limitExceeded: true});
+            await browser.tabs.update(currentTab.id, {url: redirectUrl});
+        } else {
+            count += 1;
         }
-    });
-
-    console.log(count, limit, redirectUrl);
-
+    }
 }
+
+browser.webRequest.onCompleted.addListener(addToCount, {urls: [target]});
 
 function setVideoLimit(numberVideos){
     limit = numberVideos;
-    chrome.storage.local.set({
+    browser.storage.local.set({
         videoLimit: numberVideos
     });
-
 }
 
 function setRedirect(url){
     if (url != null){
         redirectUrl = url;
-        chrome.storage.local.set({
+        browser.storage.local.set({
             redirect: url 
         })
     }
-    
 }
 
 function turnOff(){
     off = true;
-    chrome.storage.local.set({
+    browser.storage.local.set({
         turnedOff: true
     });
-    console.log(off);
 }
 
 function turnOn(){
     off = false;
-    chrome.storage.local.set({
+    browser.storage.local.set({
         turnedOff: false
     });
 }
-
-
