@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Small web extention which limits the number of youtube videos you watch.  \r You set a limit and a redirect url then once you have watched that many videos then you get redirected to the redirect url.",
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.5.0"
   },
   "devDependencies": {
     "@types/firefox": "^0.0.30",
