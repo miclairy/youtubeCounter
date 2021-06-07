@@ -1,4 +1,4 @@
-$(document).ready(async function () {
+$(async function () {
     $("#videos").hide();
     $("#newRedirect").hide();
     $("#error").hide();
@@ -12,7 +12,7 @@ $(document).ready(async function () {
     $("#newRedirect").val(items.redirect );
     $("#off").prop('checked', items.turnedOff);
 
-    $("#settings").click(function(event){
+    $("#settings").on('click', function(event){
             $("#redirectUrl").hide();
             $("#newRedirect").show();
             $("#videoLimit").hide();
@@ -21,9 +21,9 @@ $(document).ready(async function () {
         }
     )
 
-    $("#submitAll").click(submit);
+    $("#submitAll").on('click', submit);
 
-    $("#off").click(function(event){
+    $("#off").on('click', function(event){
         
         if ($("#off").prop('checked')){
             const backgroundScript = browser.extension.getBackgroundPage();
@@ -33,6 +33,12 @@ $(document).ready(async function () {
             backgroundScript.turnOn();
         }
     })
+
+    let getCount = browser.runtime.sendMessage({message: 'GET:count'});
+    getCount.then((response) => {
+        $("#watched").html("Watched: " + response.count);
+    });
+
 
 });
 

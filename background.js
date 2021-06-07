@@ -24,6 +24,12 @@ async function addToCount(tabId, changeInfo, tab) {
     }
 }
 
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.message == "GET:count") {
+        sendResponse({count: count});
+    }
+});
+
 browser.tabs.onUpdated.addListener(addToCount, {urls: [youtubeUrl]});
 
 function setVideoLimit(numberVideos){

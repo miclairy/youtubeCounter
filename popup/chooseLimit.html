@@ -15,9 +15,12 @@
   <form>
     <a href="#" data-toggle="tooltip" title="Settings" id="settings"> <span class="glyphicon glyphicon-cog"></span> </a>
     <label class="checkbox-inline"><input type="checkbox" value="" id="off">Turn off</label>
+    <div>
+      <label id='watched'> Watched: 0 </label>
+    <div>
     <div id="viddiv">
-      <label for="videos"> Number videos:</label>
-      <p id="videoLimit"> Infinity </p>  
+      <label for="videos"> Video Limit:</label>
+      <p id="videoLimit"> 1 </p>  
       <input class="form-control input-sm" type="number" name="number of videos" id="videos">
       <span class="help-block" id="errorVid"></span>
       </div>
@@ -27,7 +30,7 @@
   <form>
     <div id="urlDiv">
       <label for="newRedirect"> Redirect location:</label>
-      <p id="redirectUrl"> www.google.com   </p> 
+      <p id="redirectUrl"> https://en.wikipedia.org/wiki/Procrastination   </p> 
     </div>
     <div>
       <input type="url" class="form-control input-sm" name="redirect url" id="newRedirect">
