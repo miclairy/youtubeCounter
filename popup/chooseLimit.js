@@ -62,17 +62,24 @@ function sendRedirectUrl(_e){
         if (addhttp){
             url = "http://" + url;
             valid = true;
+        } else {
+            message = "Not a valid Url";
         }
+    }
+    let anotherVideo = /^(https?\:\/\/)?((www\.)?youtube\.com|youtu\.?be)\/.+$/g.test(url);
+    if (anotherVideo) {
+        valid = false;
+        message = "Redirecting to youtube videos is forbidden"
     }
     
     const backgroundScript = browser.extension.getBackgroundPage();
-    if (valid == true){
+    if (valid === true){
         backgroundScript.setRedirect(url);
         $("#redirectUrl").html(url);
         $("#error").hide()
     } else {
         backgroundScript.setRedirect(null);
-        $("#error").html("Not a valid Url");
+        $("#error").html(message);
         $("#error").show();
     }
     return valid;

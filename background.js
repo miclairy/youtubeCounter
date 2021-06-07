@@ -1,8 +1,9 @@
 let count = 0;
-let limit = -1;
-let redirectUrl = "https://www.google.co.nz/";
+let limit = 1;
+let redirectUrl = "https://en.wikipedia.org/wiki/Procrastination";
 let off = false;
 let lastVideoUrl = "";
+const youtubeUrl = '*://*.youtube.com/watch*';
 
 async function addToCount(tabId, changeInfo, tab) {
     if (changeInfo.url) {
@@ -10,10 +11,6 @@ async function addToCount(tabId, changeInfo, tab) {
         redirectUrl = items.redirect;
         limit = items.videoLimit;
         off = items.turnedOff;
-        
-        console.log(`lastVideoUrl: ${lastVideoUrl}`);
-        console.log(`changeInfo.url: ${changeInfo.url}`);
-        console.log(`count: ${count}/${limit}`);
         
         if (changeInfo.url !== lastVideoUrl) {
             lastVideoUrl = changeInfo.url;
@@ -27,7 +24,7 @@ async function addToCount(tabId, changeInfo, tab) {
     }
 }
 
-browser.tabs.onUpdated.addListener(addToCount, {urls: ['*://*.youtube.com/watch*']});
+browser.tabs.onUpdated.addListener(addToCount, {urls: [youtubeUrl]});
 
 function setVideoLimit(numberVideos){
     limit = numberVideos;
