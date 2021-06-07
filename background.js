@@ -8,9 +8,9 @@ const youtubeUrl = '*://*.youtube.com/watch*';
 async function addToCount(tabId, changeInfo, tab) {
     if (changeInfo.url) {
         const items = await browser.storage.local.get(["videoLimit", "redirect", "turnedOff"]);
-        redirectUrl = items.redirect;
-        limit = items.videoLimit;
-        off = items.turnedOff;
+        redirectUrl = items.redirect || redirectUrl;
+        limit = items.videoLimit || limit;
+        off = items.turnedOff || off;
         
         if (changeInfo.url !== lastVideoUrl) {
             lastVideoUrl = changeInfo.url;
