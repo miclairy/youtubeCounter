@@ -13,11 +13,11 @@ async function addToCount(tabId, changeInfo, tab) {
         off = items.turnedOff || off;
         
         if (!off && changeInfo.url !== lastVideoUrl) {
-            lastVideoUrl = changeInfo.url;
             if (count >= limit && limit > -1) {
                 await browser.tabs.sendMessage(tabId, {limitExceeded: true});
                 await browser.tabs.update(tabId, {url: redirectUrl});
             } else {
+                lastVideoUrl = changeInfo.url;
                 count += 1;
             }
         }
