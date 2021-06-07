@@ -18,7 +18,7 @@
   },
 
   "permissions": [
-    "webRequest", "*://*.youtube.com/watch*", "webRequestBlocking", "tabs", "storage"
+    "webRequest", "*://*.youtube.com/*", "webRequestBlocking", "tabs", "storage"
   ],
 
   "background": {
@@ -27,7 +27,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/watch*"],
+      "matches": ["*://*.youtube.com/*"],
       "js": ["inform.js"],
       "run_at": "document_start"
     }

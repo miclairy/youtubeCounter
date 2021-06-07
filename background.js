@@ -4,33 +4,30 @@ let redirectUrl = "https://www.google.co.nz/";
 let off = false;
 let lastVideoUrl = "";
 
-const target = "*://*.youtube.com/watch*";
-
-async function addToCount() {
-    const items = await browser.storage.local.get(["videoLimit", "redirect", "turnedOff"]);
-    redirectUrl = items.redirect;
-    limit = items.videoLimit;
-    off = items.turnedOff;
-
-    const tabs = await browser.tabs.query({active: true, currentWindow: true});
-    const currentTab = tabs[0];
-
-    console.log(`lastVideoUrl: ${lastVideoUrl}`);
-    console.log(`currentTab.url: ${currentTab.url}`);
-    console.log(`count: ${count}/${limit}`);
-
-    if (currentTab.url !== lastVideoUrl) {
-        lastVideoUrl = currentTab.url;
-        if (count >= limit && limit > -1) {
-            await browser.tabs.sendMessage(currentTab.id, {limitExceeded: true});
-            await browser.tabs.update(currentTab.id, {url: redirectUrl});
-        } else {
-            count += 1;
+async function addToCount(tabId, changeInfo, tab) {
+    if (changeInfo.url) {
+        const items = await browser.storage.local.get(["videoLimit", "redirect", "turnedOff"]);
+        redirectUrl = items.redirect;
+        limit = items.videoLimit;
+        off = items.turnedOff;
+        
+        console.log(`lastVideoUrl: ${lastVideoUrl}`);
+        console.log(`changeInfo.url: ${changeInfo.url}`);
+        console.log(`count: ${count}/${limit}`);
+        
+        if (changeInfo.url !== lastVideoUrl) {
+            lastVideoUrl = changeInfo.url;
+            if (count >= limit && limit > -1) {
+                await browser.tabs.sendMessage(tabId, {limitExceeded: true});
+                await browser.tabs.update(tabId, {url: redirectUrl});
+            } else {
+                count += 1;
+            }
         }
     }
 }
 
-browser.webRequest.onCompleted.addListener(addToCount, {urls: [target]});
+browser.tabs.onUpdated.addListener(addToCount, {urls: ['*://*.youtube.com/watch*']});
 
 function setVideoLimit(numberVideos){
     limit = numberVideos;
