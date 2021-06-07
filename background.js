@@ -12,7 +12,7 @@ async function addToCount(tabId, changeInfo, tab) {
         limit = items.videoLimit || limit;
         off = items.turnedOff || off;
         
-        if (changeInfo.url !== lastVideoUrl) {
+        if (!off && changeInfo.url !== lastVideoUrl) {
             lastVideoUrl = changeInfo.url;
             if (count >= limit && limit > -1) {
                 await browser.tabs.sendMessage(tabId, {limitExceeded: true});

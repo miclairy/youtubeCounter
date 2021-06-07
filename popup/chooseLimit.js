@@ -8,8 +8,8 @@ $(async function () {
     const items = await browser.storage.local.get(["videoLimit", "redirect", "turnedOff"]);
     $("#redirectUrl").html(items.redirect);
     $("#videoLimit").html(items.videoLimit);
-    $("#videos").val(items.videoLimit);
-    $("#newRedirect").val(items.redirect );
+    $("#videos").val(items.videoLimit || 1);
+    $("#newRedirect").val(items.redirect || "https://en.wikipedia.org/wiki/Procrastination");
     $("#off").prop('checked', items.turnedOff);
 
     $("#settings").on('click', function(event){
