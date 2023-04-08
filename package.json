@@ -9,7 +9,7 @@
     "@types/firefox": "^0.0.30",
     "@types/firefox-webext-browser": "^82.0.0",
     "npm-build-zip": "^1.0.3",
-    "web-ext": "^6.1.0",
+    "web-ext": "^6.8.0",
     "web-ext-types": "^3.2.1"
   },
   "repository": {
